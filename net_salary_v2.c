@@ -1,3 +1,4 @@
+/* This approach:  every calling function will be passing the address of the variable to be manipulated.   */
 #include <stdio.h>
 
 void deduct_medical_insurance(float *, const float *);
@@ -7,6 +8,7 @@ void deduct_tax(float *, const float *);
 
 int main(void)
 {
+    void (*net_salary_funcs[4])(float *, const float *) = {deduct_tax, deduct_medical_insurance, deduct_maternity_leave, deduct_social_security};
     float gross = 0;
     float net = 0;
 
@@ -17,11 +19,11 @@ int main(void)
         return 1;
     }
 
-    net = gross;
-    deduct_medical_insurance(&net, &gross);
-    deduct_maternity_leave(&net, &gross);
-    deduct_social_security(&net, &gross);
-    deduct_tax(&net, &gross);
+    net = gross; // initialize net
+
+    // deduct from net
+    for (int i = 0; i < 4; i++)
+        net_salary_funcs[i](&net, &gross);
 
     printf("Net Salary: %.2f\n", net);
     return 0;
