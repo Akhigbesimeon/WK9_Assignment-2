@@ -12,6 +12,10 @@ int main(void)
 
     printf("Enter Gross: ");
     scanf("%f", &gross);
+    if (gross <= 0)
+    {
+        return 1;
+    }
 
     net = gross;
     deduct_medical_insurance(&net, &gross);
